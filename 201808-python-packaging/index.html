@@ -1,0 +1,553 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Packaging in Python? - Don't Roll the Dice</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/ldaws.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/monkai-sublime.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section data-markdown>
+                <textarea data-template>
+# Packaging in Python?
+
+🎲
+
+## Don't Roll the Dice.
+            </textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+## Effective package management is hard.
+            </textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+## What should we expect from package managers?
+            </textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+### Reconciles the best version of each package for all requirements.
+
+```
+  setuptools >= 36.2.1
++ setuptools == *
++ setuptools <= 37.0.0
+= setuptools 36.7.2
+```
+            </textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+### Works to Operating System constraints.
+
+(Like Window's default 260 character path limit)
+            </textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+### Ensures a perfectly replicable dependency tree.
+
+(Not just the packages you rely on — also the packages those packages rely upon, ad nauseum!)
+            </textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+## Secure.
+
+### ... not obviously insecure?
+
+Use different techniques to make sure the package you downloaded is the one you expected.
+
+Doesn't help if you expected a malicious package. 🤷‍
+            </textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+Some package managers will automatically execute any scripts attached to a package as pre/post-install.
+
+The rest just show warnings that a user clicks through.
+            </textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+### Optimal download experience.
+
+Use a combination of techniques to make package downloads fast and reliable.
+            </textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+### Emoji.
+
+Because `yarn` said so. 🎉
+            </textarea>
+        </section>
+
+        <section>
+            <h2>So... Python.</h2>
+            <figure class="fragment">
+                <img src="lib/img/elephant.jpg" style="max-height: 30vh;">
+            </figure>
+        </section>
+
+        <section>
+            <p>
+                Python's current recommended package manager,
+                <code>pip</code>,
+            </p>
+            <p class="fragment">
+                (which isn't generally installed by default if you're using a Linux distribution's package manager),
+            </p>
+            <p class="fragment">
+                (and also isn't installed by default on macOS),
+            </p>
+            <p class="fragment">
+                is available by default on Windows when you install Python!
+            </p>
+        </section>
+
+        <section data-markdown>
+                <textarea data-template>
+# Right. Easy.
+
+🙈
+
+### (Use pyenv everywhere, and you'll have pip, at least)
+            </textarea>
+        </section>
+
+        <section data-markdown>
+                <textarea data-template>
+## Linux distributions patch pip in their repositories.
+
+The default behaviour of trying to install packages to system-level directories is not helpful
+for the average Python developer.
+
+`sudo pip install` is evil!
+            </textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+### ❌ Works to Operating System constraints.
+
+(Though, the Linux distributions generally do the same thing in their own repositories in a slightly
+different way — the behaviour can be desirable!)
+            </textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+### What if you need to install two versions of Django at the same time?
+```
+$ pip3 install --user django==2.1
+...
+Installing collected packages: django
+Successfully installed django-2.1
+
+$ pip3 install --user django==1.11.15
+...
+Installing collected packages: django
+Successfully installed django-2.1
+```
+
+## That's not Django 1.11.15!
+            </textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+### ❌ Ensures a perfectly replicable dependency tree.
+            </textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+### Emoji aside,
+
+## that's two major issues with default pip usage.
+			</textarea>
+        </section>
+
+        <section data-markdown>
+                <textarea data-template>
+# virtualenv
+
+## 😍🎉👌
+			</textarea>
+        </section>
+
+        <section data-markdown>
+                <textarea data-template>
+> virtualenv is a tool to create isolated Python environments.
+			</textarea>
+        </section>
+        <section>
+            <img src="lib/img/virtualenvs.svg" style="border: none; background: none; box-shadow: none;">
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+## The magical virtualenv activate script
+
+`activate` sandboxes the session into using a specific (redirected) Python interpreter, and keeps packages inside the
+sandbox. It can optionally let you access packages installed elsewhere in the system, or restrict access entirely.
+			</textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+## A virtualenv per project
+
+If you use a `virtualenv` per project, each project can have completely independent dependencies, without any accidental
+upgrades or operations that affect another project.
+			</textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+## pip freeze
+
+Using the `pip freeze` command, you can get a list of all packages installed by `pip`.
+
+Inside a `virtualenv`, that's limited to packages you installed there.
+			</textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+```
+autopep8==1.3.5
+colorama==0.3.9
+mock==2.0.0
+nose==1.3.7
+pycodestyle==2.4.0
+pylint==1.9.2
+rope==0.10.7
+six==1.11.0
+virtualenv==16.0.0
+virtualenv-clone==0.3.0
+```
+			</textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+### Ensures a perfectly replicable dependency tree?
+
+## Not quite.
+			</textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+### Transitive dependencies aren't locked.
+
+A package you rely upon might have a package **it** relies upon update, breaking compatibility.
+
+Then your production deploy won't run, even though the "same dependencies" work on your machine. 😭
+			</textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+And as a side note, if you're forgetful like me, sometime you forget to `activate` your `virtualenv`.
+
+Repeatedly.
+			</textarea>
+        </section>
+
+        <section data-markdown>
+                <textarea data-template>
+# pipenv
+
+## 🎂🎆🐍
+			</textarea>
+        </section>
+
+        <section data-markdown>
+                <textarea data-template>
+> Python Development Workflow for Humans
+			</textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+## Automated virtualenvs.
+			</textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+## Transitive dependency locking.
+			</textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+## One command to use and remember.
+			</textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+## Dependencies from github etc.
+			</textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+### Seriously, it does more cool things than I realised!
+			</textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+```shell
+$ pipenv --three
+
+Virtualenv location: /home/liamdawson/.virtualenvs/wat-txLatJkZ
+
+$ pipenv install django
+Adding django to Pipfile's [packages]...
+Pipfile.lock not found, creating...
+Installing dependencies from Pipfile.lock (4f9dd2)...
+To activate this project's virtualenv, run pipenv shell.
+Alternatively, run a command inside the virtualenv with pipenv run.
+
+$ pipenv run python -m 'django-admin' startproject helloworld
+$ ls
+helloworld/  Pipfile  Pipfile.lock
+```
+			</textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+## No need to make or activate virtualenvs.
+
+They're still there and in use, though — `pipenv --venv`.
+			</textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+## Check in the Pipfile.lock
+
+_(Unless you're building a reusable library)_
+
+Now you have a locked dependency graph for fully replicable builds! 🙌
+			</textarea>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+## How hard is it to migrate to pipenv?
+                </textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+```shell
+$ git clone https://github.com/shalakhin/check_btc_tx.git
+$ cd check_btc_tx
+
+$ pipenv --three
+requirements.txt found, instead of Pipfile! Converting...
+$ pipenv install
+
+# Check the last donation to The Internet Archive
+$ pipenv run python check 1Archive1n2C579dMsAu3iC6tWzuQJz8dN
+TXID:   a75fe75...
+Status: Confirmed
+Amount: 0.15997978
+```
+            </textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+## Tests?
+
+Handled natively as a "dev-only" dependency.
+
+```
+$ pipenv install --dev --requirements requirements-dev.txt
+$ pipenv install --dev nose
+$ head --lines=-3 Pipfile | tail --lines=+5
+
+[dev-packages]
+nose = "*"
+
+[packages]
+click = "*"
+requests = "*"
+$ pipenv install # --dev
+```
+            </textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+## Reversible?
+
+```shell
+pipenv lock -r > requirements.txt
+```
+            </textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+## Emoji?
+
+Just not on Windows, where I ran my code.
+
+(Time to write a PR!)
+            </textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+                ## When a new developer starts on your project...
+            </textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+                # pipenv install
+            </textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+                * If they're using `pyenv`, it installs the right Python version for them.
+                * Sets up a `virtualenv` for the project.
+                * Installs the requirements (and dev requirements if you pass `--dev`).
+            </textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+                * Can run scripts you set up, such as `pipenv run format`.
+                * Can still replicate `activate` behaviour from the `virtualenv` via `pipenv shell`
+        </textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+                ### Previous example becomes
+
+                1. `git clone`
+                1. `pipenv install --dev`
+                1. `pipenv run check`
+                1. 🍻
+            </textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+                ## Where does pipenv fall short?
+            </textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+                ### Pipenv is a top-notch tool for managing an application which:
+
+                * Runs on one version of Python.
+                * Isn't used as a dependency.
+                * Isn't packaged for PyPi etc.
+            </textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+                ### Pipfiles declare an expected version of Python
+            </textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+                ### Pipfile.lock rigidly fixes dependency versions
+
+                (which doesn't suit usage as a dependency)
+            </textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+                ### pipenv won't help with package configuration
+            </textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+                ## If those assumptions don't suit you?
+            </textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+                # Try poetry
+
+                (the tool)
+            </textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+### Poetry is a somewhat fuller-featured tool for dependency management.
+            </textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+Poetry is a little more involved, and uses more metadata.
+
+This equips it to support packaging and publishing, in addition to dependency management.
+            </textarea>
+        </section>
+        <section data-markdown>
+            <textarea data-template>
+                ### If you use pyenv to manage your python versions
+
+                ### and pipenv or poetry to manage your projects
+            </textarea>
+        </section>
+        <section>
+            <h3>It's a lot less bite for everyone.</h3>
+            <figure>
+                <img src="lib/img/nope-rope.jpg" style="max-height: 30vh;">
+                <figcaption>
+                    Party danger noodle!
+                </figcaption>
+            </figure>
+        </section>
+        <section>
+            <h2>Fin.<br>&nbsp;</h2>
+            <p>
+                Want to follow up later? I'm on Twitter:
+            </p>
+            <h3>@liamdaws</h3>
+        </section>
+        <section data-markdown>
+                <textarea data-template>
+## Credits
+
+* Elephant photo by [Inbetween Architects](https://unsplash.com/photos/hkLyAFpTXWE?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on Unsplash
+* Original snake photo by [Boris Smokrovic](https://unsplash.com/photos/bPldxRHkTzw?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on Unsplash
+                </textarea>
+        </section>
+    </div>
+</div>
+
+<script src="//twemoji.maxcdn.com/2/twemoji.min.js?11.0"></script>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+    // More info about config & dependencies:
+    // - https://github.com/hakimel/reveal.js#configuration
+    // - https://github.com/hakimel/reveal.js#dependencies
+    Reveal.initialize({
+        dependencies: [
+            {src: 'plugin/markdown/marked.js'},
+            {src: 'plugin/markdown/markdown.js'},
+            {src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); }},
+            {src: 'plugin/notes/notes.js', async: true},
+            {
+                src: 'node_modules/twemoji/2/twemoji.min.js',
+                callback: function () {
+                    twemoji.parse(document.body);
+                }
+            }
+        ]
+    });
+</script>
+</body>
+
+</html>

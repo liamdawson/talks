@@ -1,0 +1,64 @@
+<svg version="1.1"
+     baseProfile="full"
+     viewBox="0 0 400 380"
+     width="800" height="760"
+     xmlns="http://www.w3.org/2000/svg" style="font-family: 'Roboto Mono', monospace; fill: #ffffff; font-size: 16px;">
+    <defs>
+        <marker id="arrowhead" markerWidth="5" markerHeight="5" refX="0" refY="1.5" orient="auto"
+                markerUnits="strokeWidth">
+            <path d="M0,0 L0,6 L9,3 z" transform="scale(0.5 0.5)"/>
+        </marker>
+    </defs>
+    <g transform="translate(3 16)">
+        <text>spammish-repetition</text>
+        <g transform="translate(2 14)">
+            <g style="stroke: #ffffff;">
+                <line y1="0" y2="0" x1="0" x2="176"/>
+                <line y1="64" y2="64" x1="0" x2="176"/>
+                <line y1="0" y2="64" x1="0" x2="0"/>
+                <line y1="0" y2="64" x1="176" x2="176"/>
+            </g>
+            <g transform="translate(6, 20)">
+                <text style="white-space: pre;">django == 1.11.15</text>
+                <text y="16" style="white-space: pre;">spambot > 2.0</text>
+                <text y="32" style="white-space: pre;">postgres == *</text>
+            </g>
+            <line x1="88" x2="88" y1="130" y2="84" stroke="#ffffff" stroke-width="3"
+                  marker-end="url(#arrowhead)"/>
+            <g transform="translate(2 160)">
+                <text font-size="32" x="88" text-anchor="middle" fill="#f4be00">pip</text>
+            </g>
+        </g>
+    </g>
+    <line stroke-width="2" x1="198" x2="198" y1="0" y2="204" stroke="#ffffff" stroke-dasharray="8 4"/>
+    <g transform="translate(211 16)">
+        <text>project-antigravity</text>
+        <g transform="translate(2 14)">
+            <g style="stroke: #ffffff;">
+                <line y1="0" y2="0" x1="0" x2="176"/>
+                <line y1="80" y2="80" x1="0" x2="176"/>
+                <line y1="0" y2="80" x1="0" x2="0"/>
+                <line y1="0" y2="80" x1="176" x2="176"/>
+            </g>
+            <g transform="translate(6, 20)">
+                <text style="white-space: pre;">six == *</text>
+                <text y="16" style="white-space: pre;">reverse &gt; 2.0</text>
+                <text y="32" style="white-space: pre;">requests &lt; 42.1.3</text>
+                <text y="48" style="white-space: pre;">pin == 1.2.3.4</text>
+            </g>
+            <line x1="88" x2="88" y1="130" y2="100" stroke="#ffffff" stroke-width="3"
+                  marker-end="url(#arrowhead)"/>
+            <g transform="translate(2 160)">
+                <text font-size="32" x="88" text-anchor="middle" fill="#f4be00">pip</text>
+            </g>
+        </g>
+    </g>
+    <g transform="translate(0 220)">
+        <path d="M198,80 V40 L94,20 V0" stroke="#ffffff" stroke-width="3" fill="transparent"
+              marker-end="url(#arrowhead)"/>
+        <path d="M198,80 V40 L302,20 V0" stroke="#ffffff" stroke-width="3" fill="transparent"
+              marker-end="url(#arrowhead)"/>
+
+        <text font-size="32" text-anchor="middle" x="198" y="112">python</text>
+    </g>
+</svg>
